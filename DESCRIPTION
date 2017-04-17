@@ -1,0 +1,30 @@
+Package: treeCentrality
+Type: Package
+Title: Computation of network science statistics on trees in linear time
+Version: 0.1.0
+Author: Leonid Chindelevitch,
+    Caroline Colijn,
+    Art Poon
+Maintainer: Leonid Chindelevitch <leonid@sfu.ca>
+Description: This package implements the computation of network science statistics
+    on (rooted or unrooted) phylogenetic trees in linear time. The statistics include
+    diameter, mean path length, degree assortativity, and three node-based centrality
+    values: betweenness centrality, closeness centrality, and eigenvector centrality.
+    These statistics, useful for distinguishing evolutionary scenarios, are computed 
+    in time and space linear in the tree size, and can take branch length into account.  
+    In addition, this package can compute the spectra of the adjacency, Laplacian, and
+    distance matrices, although this computation may be cubic in the tree size. The 
+    methods are described in “Network science inspires novel tree shape statistics”.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.3.2)
+Imports:
+    ape (>= 3.5),
+    igraph (>= 1.0.1),
+    phytools (>= 0.5-38)
+Suggests:
+    Matrix (>= 1.2-8),
+    rARPACK (>= 0.11-0)
+RoxygenNote: 6.0.1
