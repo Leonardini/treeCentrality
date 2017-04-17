@@ -28,3 +28,5 @@ Suggests:
     Matrix (>= 1.2-8),
     rARPACK (>= 0.11-0)
 RoxygenNote: 6.0.1
+URL: http://github.com/Leonardini/treeCentrality
+BugReports: http://github.com/Leonardini/treeCentrality/issues
