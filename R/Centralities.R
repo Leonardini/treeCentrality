@@ -5,6 +5,7 @@
 #' @param tree A phylo tree; needs to be binary and rooted, but the root can be arbitrary.
 #' @param weight A logical scalar; if TRUE, branch lengths are used; if a root edge is present, it is ignored!
 #' @family network science-based tree shape statistics
+#' @export
 computeDiameter = function(tree, weight = FALSE) {
   if (is.null(tree[[paste0("depths", rep("Weighted", weight))]])) {
     tree = addDepths(tree, weight = weight)
@@ -21,6 +22,7 @@ computeDiameter = function(tree, weight = FALSE) {
 #' @param norm A logical scalar; if TRUE, the Wiener index is normalized to give the average path.
 #' @param weight A logical scalar; if TRUE, branch lengths are used; if a root edge is present, it is ignored!
 #' @family network science-based tree shape statistics
+#' @export
 computeWienerIndex = function(tree, norm = FALSE, weight = FALSE) {
   if (is.null(tree$subtreeSizes)) {
     tree = addSubtreeSizes(tree)
@@ -53,6 +55,7 @@ computeWienerIndex = function(tree, norm = FALSE, weight = FALSE) {
 #' @param tree A phylo tree; needs to be binary and rooted, but the root can be arbitrary.
 #' @param weight A logical scalar; if TRUE, branch lengths are used; however, they do not change the result!
 #' @family network science-based tree shape statistics
+#' @export
 computeBetweenness = function(tree, weight = FALSE) {
   if (is.null(tree$subtreeSizes)) {
     tree = addSubtreeSizes(tree)
@@ -70,6 +73,7 @@ computeBetweenness = function(tree, weight = FALSE) {
 #' @param tree A phylo tree; needs to be binary and rooted, but the root can be arbitrary.
 #' @param weight A logical scalar; if TRUE, branch lengths are used; if a root edge is present, it is ignored!
 #' @family network science-based tree shape statistics
+#' @export
 computeCloseness = function(tree, weight = FALSE) {
   return(1/computeFarness(tree, weight = weight))
 }
@@ -80,6 +84,7 @@ computeCloseness = function(tree, weight = FALSE) {
 #' @param tree A phylo tree; needs to be binary and rooted, but the root can be arbitrary.
 #' @param weight A logical scalar; if TRUE, branch lengths are used; if a root edge is present, it is ignored!
 #' @family network science-based tree shape statistics
+#' @export
 computeFarness = function(tree, weight = FALSE) {
   if (is.null(tree$subtreeSizes)) {
     tree = addSubtreeSizes(tree)
@@ -92,7 +97,7 @@ computeFarness = function(tree, weight = FALSE) {
     if (is.null(tree$heightsWeighted)) {
       tree = addHeights(tree, weight = TRUE)
     }
-    Farness[n + 1] = sum(tree$heightsWeighted[1:n])
+    Farness[n + 1] = sum(tree$heightsWeighted) ### bug fix: originally had only sum[1:n]
   } else {
     Farness[n + 1] = sum(sizes)
   }
@@ -116,9 +121,9 @@ computeFarness = function(tree, weight = FALSE) {
 #' If no scaling is used (the default), the eigenvector has unit length in the Euclidean norm.
 #' @return A list containing the dominant eigenvector and its corresponding eigenvalue.
 #' @family network science-based tree shape statistics
+#' @export
 computeEigenvector = function(tree, weight = FALSE, scale = FALSE) {
-  stopifnot(ape::is.binary.tree(tree))
-  stopifnot(ape::is.rooted(tree))
+  stopifnot(checkPhylogeneticTree(tree))
   graph = ape::as.igraph.phylo(tree, directed = FALSE)
   igraph::E(graph)$weight = ifelse(rep(weight, nrow(tree$edge)), tree$edge.length, 1)
   adj_matrix = igraph::get.adjacency(graph, sparse = TRUE, attr = "weight")

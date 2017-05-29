@@ -66,9 +66,9 @@ addSubtreeSizes = function(tree) {
 ### This function computes the weighted or unweighted depths and adds them to a given tree
 addDepths = function(tree, weight) {
   if (weight) {
-    tree$depths = computeLRDepths(tree, FALSE)
-  } else {
     tree$depthsWeighted = computeLRDepths(tree, TRUE)
+  } else {
+    tree$depths = computeLRDepths(tree, FALSE)
   }
   tree
 }
@@ -76,9 +76,9 @@ addDepths = function(tree, weight) {
 ### This function computes the weighted or unweighted heights and adds them to a given tree
 addHeights = function(tree, weight) {
   if (weight) {
-    tree$heights = computeHeights(tree, FALSE)
-  } else {
     tree$heightsWeighted = computeHeights(tree, TRUE)
+  } else {
+    tree$heights = computeHeights(tree, FALSE)
   }
   tree
 }

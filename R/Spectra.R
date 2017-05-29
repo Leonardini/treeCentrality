@@ -8,6 +8,7 @@
 #' @param lap A logical scalar; if TRUE, the Laplacian matrix is computed (defined as diag(rowSums(M))-M for a matrix M).
 #' @param norm A logical scalar; if TRUE, the Laplacian is a normalized one (i.e. the diagonal is 1); ignored if lap = FALSE.
 #' @family functions used to compute tree spectra
+#' @export
 computeMatrix = function(tree, weight, dist, full, lap, norm) {
   stopifnot(checkPhylogeneticTree(tree))
   if (dist) {
@@ -44,6 +45,7 @@ computeMatrix = function(tree, weight, dist, full, lap, norm) {
 #' @param lap A logical scalar; if TRUE, the Laplacian matrix is computed (defined as diag(rowSums(M))-M for a matrix M).
 #' @param norm A logical scalar; if TRUE, the Laplacian is a normalized one (i.e. the diagonal is 1); ignored if lap = FALSE.
 #' @family functions used to compute tree spectra
+#' @export
 computeSpectrum  = function(tree, weight, dist, full, lap, norm) {
   curMatrix = computeMatrix(tree, weight, dist, full, lap, norm)
   curSpectrum = eigen(curMatrix, symmetric = TRUE, only.values = TRUE)$values

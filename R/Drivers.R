@@ -9,6 +9,7 @@ networkStatNames  = c("diameter", "WienerIndex", "betweenness", "closeness", "ei
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @return A named vector containing the 16 basic summary statistics.
 #' @family drivers for computing summary statistics
+#' @export
 computeBasicStats = function(tree) {
   tree = augmentTree(tree, sizes = TRUE, depths = FALSE, heights = TRUE, weight = FALSE)
   cherries      = computeCherries(tree, FALSE)
@@ -38,6 +39,7 @@ computeBasicStats = function(tree) {
 #' @param maxOnly A logical scalar; if TRUE, only the maximum value of each vector is returned.
 #' @return A named vector containing the 5 network science-based statistics.
 #' @family drivers for computing summary statistics
+#' @export
 computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly = TRUE) {
   tree = augmentTree(tree, sizes = TRUE, depths = TRUE, heights = TRUE, weight = weight)
   diameter      = computeDiameter(tree, weight = weight)
@@ -68,6 +70,7 @@ computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly =
 #' @param maxOnly A logical scalar; if TRUE, only the maximum value of each vector is returned.
 #' @return A named vector containing the specified spectra (or only their maximum values).
 #' @family drivers for computing summary statistics
+#' @export
 computeSpectralStats = function(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TRUE),
   norm = FALSE, dist = FALSE, full = FALSE, maxOnly = TRUE) {
   normFactor = sum(ifelse(adj, 1, length(norm))) # norm only applies to adj = FALSE (lap)
@@ -94,7 +97,7 @@ computeSpectralStats = function(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TR
       }
     }
   }
-  stopifnot(ind == length(allSpectra))
+  allSpectra = allSpectra[!sapply(allSpectra,is.null)]
   if (maxOnly) {
     allSpectra = sapply(allSpectra, max)
   }

@@ -2,10 +2,10 @@ Package: treeCentrality
 Type: Package
 Title: Computation of network science statistics on trees in linear time
 Version: 0.1.0
-Author: Leonid Chindelevitch,
-    Caroline Colijn,
-    Art Poon
-Maintainer: Leonid Chindelevitch <leonid@sfu.ca>
+Authors@R: c(
+    person("Leonid", "Chindelevitch", email = "leonid@sfu.ca", role = c("aut", "cre")),
+    person("Caroline", "Colijn", email = "c.colijn@imperial.ac.uk", role = "aut"),
+    person("Art", "Poon", email = "apoon42@uwo.ca", role = "aut"))
 Description: This package implements the computation of network science statistics
     on (rooted or unrooted) phylogenetic trees in linear time. The statistics include
     diameter, mean path length, degree assortativity, and three node-based centrality
@@ -23,9 +23,7 @@ Depends:
 Imports:
     ape (>= 3.5),
     igraph (>= 1.0.1),
-    phytools (>= 0.5-38)
-Suggests:
-    Matrix (>= 1.2-8),
+    phytools (>= 0.5-38),
     rARPACK (>= 0.11-0)
 RoxygenNote: 6.0.1
 URL: http://github.com/Leonardini/treeCentrality

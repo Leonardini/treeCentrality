@@ -4,6 +4,7 @@
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @param DOUBLE A logical scalar; if TRUE, computes the number of double cherries instead.
 #' @family tree shape statistics based on the number of small substructures
+#' @export
 computeCherries = function(tree, DOUBLE = FALSE) {
   if (is.null(tree$subtreeSizesTips)) {
     tree = addSubtreeSizes(tree)
@@ -20,6 +21,7 @@ computeCherries = function(tree, DOUBLE = FALSE) {
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @param FOURPRONG A logical scalar; if TRUE, computes the number of fourprongs instead.
 #' @family tree shape statistics based on the number of small substructures
+#' @export
 computePitchforks = function(tree, FOURPRONG = FALSE) {
   if (is.null(tree$subtreeSizesTips)) {
     tree = addSubtreeSizes(tree)
@@ -36,6 +38,7 @@ computePitchforks = function(tree, FOURPRONG = FALSE) {
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @return A vector of length 5, containing the number of clades of size 4, 5, 6, 7, and 8, in order.
 #' @family tree shape statistics based on the number of small substructures
+#' @export
 computeNum4to8 = function(tree) {
   if (is.null(tree$subtreeSizesTips)) {
     tree = addSubtreeSizes(tree)
@@ -54,6 +57,7 @@ computeNum4to8 = function(tree) {
 #' \code{computeSackin} computes the Sackin index of a rooted binary phylo tree
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @family tree shape statistics based on imbalance
+#' @export
 computeSackin = function(tree) {
   if (is.null(tree$heights)) {
     tree = addHeights(tree, weight = FALSE)
@@ -68,6 +72,7 @@ computeSackin = function(tree) {
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @param norm A logical scalar; if TRUE, the value is normalized to lie between 0 and 1.
 #' @family tree shape statistics based on imbalance
+#' @export
 computeColless = function(tree, norm = TRUE) {
   if (is.null(tree$subtreeSizesTips)) {
     tree = addSubtreeSizes(tree)
@@ -85,6 +90,7 @@ computeColless = function(tree, norm = TRUE) {
 #' \code{computeStairs1} computes the first staircase-ness statistic of a rooted binary phylo tree
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @family tree shape statistics proposed by Norstrom et al.
+#' @export
 computeStairs1 = function(tree) {
   if (is.null(tree$subtreeSizes)) {
     tree = addSubtreeSizes(tree)
@@ -98,6 +104,7 @@ computeStairs1 = function(tree) {
 #' \code{computeStairs1} computes the second staircase-ness statistic of a rooted binary phylo tree
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @family tree shape statistics proposed by Norstrom et al.
+#' @export
 computeStairs2 = function(tree) {
   if (is.null(tree$subtreeSizesTips)) {
     tree = addSubtreeSizes(tree)
@@ -111,6 +118,7 @@ computeStairs2 = function(tree) {
 #' \code{computeMaxWidth} computes the maximum number of nodes at a height in a rooted binary phylo tree
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @family tree shape statistics based on height and width
+#' @export
 computeMaxWidth = function(tree) {
   if (is.null(tree$heights)) {
     tree = addHeights(tree, weight = FALSE)
@@ -124,6 +132,7 @@ computeMaxWidth = function(tree) {
 #' \code{computeMaxHeight} computes the maximum root-to-tip distance in a rooted binary phylo tree
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @family tree shape statistics based on height and width
+#' @export
 computeMaxHeight = function(tree) {
   if (is.null(tree$heights)) {
     tree = addHeights(tree, weight = FALSE)
@@ -137,6 +146,7 @@ computeMaxHeight = function(tree) {
 #' \code{computeMaxDelW} computes the maximum difference of consecutive widths in a rooted binary phylo tree
 #' @param tree A phylo tree; needs to be binary and rooted.
 #' @family tree shape statistics based on height and width
+#' @export
 computeDelW = function(tree) {
   if (is.null(tree$heights)) {
     tree = addHeights(tree, weight = FALSE)
