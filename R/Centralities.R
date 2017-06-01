@@ -123,7 +123,7 @@ computeFarness = function(tree, weight = FALSE) {
 #' @family network science-based tree shape statistics
 #' @export
 computeEigenvector = function(tree, weight = FALSE, scale = FALSE) {
-  stopifnot(checkPhylogeneticTree(tree))
+  tree = checkPhylogeneticTree(tree)
   graph = ape::as.igraph.phylo(tree, directed = FALSE)
   igraph::E(graph)$weight = ifelse(rep(weight, nrow(tree$edge)), tree$edge.length, 1)
   adj_matrix = igraph::get.adjacency(graph, sparse = TRUE, attr = "weight")

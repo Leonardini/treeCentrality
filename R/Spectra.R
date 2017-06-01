@@ -10,7 +10,7 @@
 #' @family functions used to compute tree spectra
 #' @export
 computeMatrix = function(tree, weight, dist, full, lap, norm) {
-  stopifnot(checkPhylogeneticTree(tree))
+  tree = checkPhylogeneticTree(tree)
   if (dist) {
     if (!weight) {
       tree = makeUnweighted(tree)

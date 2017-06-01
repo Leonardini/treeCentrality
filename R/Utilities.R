@@ -1,7 +1,7 @@
 ### This function computes the height (distance to the root) of each node of a given tree
 ### If weight = TRUE, branch lengths are used; if a root edge is present, it is ignored!
 computeHeights = function(tree, weight = FALSE) {
-  stopifnot(checkPhylogeneticTree(tree))
+  tree = checkPhylogeneticTree(tree)
   n = ape::Ntip(tree)
   N = 2 * n - 1
   Tab = rep(0, N)
@@ -26,7 +26,7 @@ computeLRDepths = function(tree, weight = FALSE) {
 
 ### This function factory recursively computes values for subtrees rooted at internal nodes
 computeLRValues = function(tree, FUN, weight = FALSE) {
-  stopifnot(checkPhylogeneticTree(tree))
+  tree = checkPhylogeneticTree(tree)
   n = ape::Ntip(tree)
   N = 2 * n - 1
   Tab = matrix(NA, n - 1, 2)
@@ -84,11 +84,15 @@ addHeights = function(tree, weight) {
 }
 
 ### This function checks that the input tree is phylogenetic (i.e. rooted and binary)
+### If not, arbitrarily roots it at the 1st internal node and/or binarizes it by multi2di
 checkPhylogeneticTree = function(tree) {
-  if (!(ape::is.binary.tree(tree)) || !(ape::is.rooted(tree))) {
-    return(FALSE)
+  if (!(ape::is.rooted(tree))) {
+    tree = root(tree, node = ape::Ntip(tree) + 2, resolve.root = TRUE)
   }
-  return(TRUE)
+  if (!(ape::is.binary.tree(tree))) {
+    tree = multi2di(tree)
+  }
+  return(tree)
 }
 
 ### This function is used to create a verbal description of a matrix based on parameters.

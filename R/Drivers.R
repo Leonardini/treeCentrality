@@ -68,7 +68,7 @@ computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly =
 #' @param dist A logical vector; a TRUE (FALSE) entry means the distance (regular) matrix is used.
 #' @param full A logical vector;  a TRUE (FALSE) entry means the full (leaf-leaf) distance matrix is used.
 #' @param maxOnly A logical scalar; if TRUE, only the maximum value of each vector is returned.
-#' @return A named vector containing the specified spectra (or only their maximum values).
+#' @return A named list containing the specified spectra (or only their maximum values).
 #' @family drivers for computing summary statistics
 #' @export
 computeSpectralStats = function(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TRUE),
