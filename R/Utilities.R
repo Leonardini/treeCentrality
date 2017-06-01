@@ -95,7 +95,7 @@ checkPhylogeneticTree = function(tree) {
 createName = function(Weight, Dist, Full, Lap, Norm) {
   Name = ifelse(Lap, "Laplacian", "")
   if (Dist) {
-    Name = paste0("Distance", Name)
+    Name = paste0("Distance", ifelse(Name == "", "", " "), Name)
     if (Full) {
       Name = paste0(Name, ", Full")
     }
@@ -104,8 +104,75 @@ createName = function(Weight, Dist, Full, Lap, Norm) {
     Name = paste0(Name, ", Normalized")
   }
   if (Weight) {
-    Name = paste0(Name, ", Weighted")
+    Name = paste0(Name, ifelse(Name == "", "", ", "), "Weighted")
   }
   Name = paste(Name, "spectrum")
   Name
+}
+
+### Utility function from the NeighborJoin.R file
+createEmptyTree = function(numNodes) {
+  Tree = rep(list(c(NA, Inf, NA, NA)), numNodes)
+  names(Tree) = 1:numNodes
+  Tree
+}
+
+### Utility function from the NeighborJoin.R file
+createNewNode = function(Tree, children, branchLengths, position) {
+  N = position
+  for (ind in 1:length(children)) {
+    curChild = children[ind]
+    Tree[[curChild]][1] = N
+    Tree[[curChild]][2] = branchLengths[ind]
+  }
+  Tree[[N]] = c(NA, Inf, children)
+  Tree
+}
+
+### Conversion function from the NeighborJoin.R file
+convertPhylo = function(Tree) {
+  N = length(Tree)
+  n = (N + 1)/2
+  Labels = names(Tree)[1:n]
+  Edges = matrix(NA, N - 1, 3)
+  for (ind in 1:(N - 1)) {
+    curElement = Tree[[ind]]
+    Edges[ind,] = c(curElement[1], ind, curElement[2])
+  }
+  Edges[Edges[,1] > n, 1] = 3 * n - Edges[Edges[,1] > n, 1]
+  Edges[Edges[,2] > n, 2] = 3 * n - Edges[Edges[,2] > n, 2]
+  iTree = igraph::graph(t(Edges[, 1:2]), directed = TRUE)
+  orderT = igraph::graph.dfs(iTree, root = 3 * n - N)$order
+  Edges = Edges[order(Edges[,2]),]
+  newEdges = matrix(NA, nrow(Edges), ncol(Edges))
+  newEdges[order(orderT[-1]),] = Edges
+  newLengths = newEdges[,3]
+  newEdges = newEdges[,-3]
+  randTree = ape::rtree(n, rooted = TRUE)
+  randTree$edge = newEdges
+  randTree$edge.length = newLengths
+  randTree$tip.label = Labels
+  randTree
+}
+
+### This function creates the tree used to cross-check the statistics
+createTestTree = function() {
+  Tr = createEmptyTree(numNodes = 13)
+  Tr = createNewNode(Tr, c(4,5), c(1,1), 8)
+  Tr = createNewNode(Tr, c(6,7), c(1,1), 9)
+  Tr = createNewNode(Tr, c(2,3),  c(2,2), 10)
+  Tr = createNewNode(Tr, c(8,9), c(1,1), 11)
+  Tr = createNewNode(Tr, c(10,11), c(2,2), 12)
+  Tr = createNewNode(Tr, c(1,12), c(8,4), 13)
+  Tree = convertPhylo(Tr)
+  Tree$tip.label = c("a","f","g","d","e","b","c")
+  Tree$node.label = LETTERS[1:6]
+  Tree
+}
+
+### This function creates an unweighted version of a weighted tree
+makeUnweighted = function(Tree) {
+  uTree = Tree
+  uTree$edge.length = rep(1, nrow(Tree$edge))
+  uTree
 }

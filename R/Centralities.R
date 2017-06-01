@@ -45,7 +45,7 @@ computeWienerIndex = function(tree, norm = FALSE, weight = FALSE) {
   else {
     W = sum(q * (N - q)) + (N - 1) * (n + 1)
   }
-  W = W / ifelse(norm, choose(N,2), 1)
+  W = W / ifelse(norm, choose(N, 2), 1)
   W
 }
 
@@ -137,7 +137,9 @@ computeEigenvector = function(tree, weight = FALSE, scale = FALSE) {
   orderedVector = rep(NA, length(evector))
   n = ape::Ntip(tree)
   orderedVector[1:n] = evector[tree$tip.label]
-  orderedVector[-(1:n)] = evector[paste0("Node", 1:(n-1))]
+  nodeLabels = tree$node.label
+  nodeNames = ifelse(rep(is.null(nodeLabels), n-1), paste0("Node", 1:(n-1)), nodeLabels)
+  orderedVector[-(1:n)] = evector[nodeNames]
   output = list(eigenvector = orderedVector, eigenvalue = evalue)
   output
 }

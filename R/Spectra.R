@@ -12,6 +12,9 @@
 computeMatrix = function(tree, weight, dist, full, lap, norm) {
   stopifnot(checkPhylogeneticTree(tree))
   if (dist) {
+    if (!weight) {
+      tree = makeUnweighted(tree)
+    }
     if (full) {
       curMatrix = ape::dist.nodes(tree)
     }
