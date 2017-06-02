@@ -87,10 +87,10 @@ addHeights = function(tree, weight) {
 ### If not, arbitrarily roots it at the 1st internal node and/or binarizes it by multi2di
 checkPhylogeneticTree = function(tree) {
   if (!(ape::is.rooted(tree))) {
-    tree = root(tree, node = ape::Ntip(tree) + 2, resolve.root = TRUE)
+    tree = ape::root(tree, node = ape::Ntip(tree) + 2, resolve.root = TRUE)
   }
   if (!(ape::is.binary.tree(tree))) {
-    tree = multi2di(tree)
+    tree = ape::multi2di(tree)
   }
   return(tree)
 }
