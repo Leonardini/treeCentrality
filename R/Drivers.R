@@ -37,10 +37,14 @@ computeBasicStats = function(tree) {
 #' @param weight A logical scalar; if TRUE, the branch lengths are taken into account.
 #' @param meanpath A logical scalar; if TRUE, the Wiener index is normalized to the mean path.
 #' @param maxOnly A logical scalar; if TRUE, only the maximum value of each vector is returned.
+#' @param unitMean A logical scalar; if TRUE, the tree's branch lengths are scaled to unit mean beforehand.
 #' @return A named vector containing the 5 network science-based statistics.
 #' @family drivers for computing summary statistics
 #' @export
-computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly = TRUE) {
+computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly = TRUE, unitMean = TRUE) {
+  if (unitMean) {
+    tree = scaleTreeBranches(tree)
+  }
   tree = augmentTree(tree, sizes = TRUE, depths = TRUE, heights = TRUE, weight = weight)
   diameter      = computeDiameter(tree, weight = weight)
   WienerIndex   = computeWienerIndex(tree, norm = meanpath, weight = weight)
@@ -72,7 +76,10 @@ computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly =
 #' @family drivers for computing summary statistics
 #' @export
 computeSpectralStats = function(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TRUE),
-  norm = FALSE, dist = FALSE, full = FALSE, maxOnly = TRUE) {
+  norm = FALSE, dist = FALSE, full = FALSE, maxOnly = TRUE, unitMean = TRUE) {
+  if (unitMean) {
+    tree = scaleTreeBranches(tree)
+  }
   tree = checkPhylogeneticTree(tree)
   normFactor = sum(ifelse(adj, 1, length(norm))) # norm only applies to adj = FALSE (lap)
   distFactor = sum(ifelse(dist, length(full), 1)) # full only applied to dist = TRUE
@@ -103,6 +110,25 @@ computeSpectralStats = function(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TR
     allSpectra = sapply(allSpectra, max)
   }
   allSpectra
+}
+
+#' Summaries of the distance Lapalcian spectrum (normalized or unnormalized) of a rooted phylo tree.
+#'
+#' \code{computeLMStats} computes various summaries of the distance Laplacian specturm of a rooted binary phylo tree.
+#' @inheritParams computeBasicStats
+#' @inheritParams computeNetworkStats
+#' @inheritParams computeSpectralStats
+#' @return A named list containing spectral summary statistics: asymmetry, kurtosis, densityMax and lambdaMax.
+#' @family drivers for computing summary statistics
+#' @export
+computeLMStats = function(tree, norm = FALSE, unitMean = TRUE) {
+  if (unitMean) {
+    tree = scaleTreeBranches(tree)
+  }
+  stats = spectR(tree, method = ifelse(norm, "normal", "standard"))
+  output = c(stats$asymmetry, stats$peakedness1, stats$peakedness2, stats$principal_eigenvalue)
+  names(output) = c("asymmetry", "kurtosis", "densityMax", "lambdaMax")
+  output
 }
 
 ### TODO: ADD DESCRIPTION!

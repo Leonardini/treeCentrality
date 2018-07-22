@@ -87,9 +87,11 @@ addHeights = function(tree, weight) {
 ### If not, arbitrarily roots it at the 1st internal node and/or binarizes it by multi2di
 checkPhylogeneticTree = function(tree) {
   if (!(ape::is.rooted(tree))) {
+    print("Warning: unrooted input tree; it will be rooted for further processing")
     tree = ape::root(tree, node = ape::Ntip(tree) + 2, resolve.root = TRUE)
   }
   if (!(ape::is.binary.tree(tree))) {
+    print("Warning: non-binary input tree; it will be binarized for further processing")
     tree = ape::multi2di(tree)
   }
   return(tree)
@@ -179,4 +181,17 @@ makeUnweighted = function(Tree) {
   uTree = Tree
   uTree$edge.length = rep(1, nrow(Tree$edge))
   uTree
+}
+
+### This function scales the tree to have branch lengths that have a mean of 1; warning for any lengths <= 0
+scaleTreeBranches = function(Tree) {
+  if (any(Tree$edge.length < 0)) {
+    warning("Some edges have negative branch lengths!")
+  }
+  if (any(Tree$edge.length == 0)) {
+    warning("Some edges have zero branch lengths!")
+  }
+  sTree = Tree
+  sTree$edge.length = sTree$edge.length/mean(sTree$edge.length)
+  sTree
 }
