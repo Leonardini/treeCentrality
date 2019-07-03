@@ -19,3 +19,4 @@ A vector of length 5, containing the number of clades of size 4, 5, 6, 7, and 8,
 Other tree shape statistics based on the number of small substructures: \code{\link{computeCherries}},
   \code{\link{computePitchforks}}
 }
+\concept{tree shape statistics based on the number of small substructures}

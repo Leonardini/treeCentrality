@@ -25,3 +25,4 @@ computeSpectrum(tree, weight, dist, full, lap, norm)
 \seealso{
 Other functions used to compute tree spectra: \code{\link{computeMatrix}}
 }
+\concept{functions used to compute tree spectra}

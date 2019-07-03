@@ -17,3 +17,4 @@ computeColless(tree, norm = TRUE)
 \seealso{
 Other tree shape statistics based on imbalance: \code{\link{computeSackin}}
 }
+\concept{tree shape statistics based on imbalance}

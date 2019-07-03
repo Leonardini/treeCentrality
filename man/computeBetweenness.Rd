@@ -21,3 +21,4 @@ Other network science-based tree shape statistics: \code{\link{computeCloseness}
   \code{\link{computeFarness}},
   \code{\link{computeWienerIndex}}
 }
+\concept{network science-based tree shape statistics}

@@ -7,7 +7,7 @@
 computeBasicStats(tree)
 }
 \arguments{
-\item{tree}{A phylo tree; needs to be binary and rooted.}
+\item{tree}{A tree of class \code{phylo}. The tree should be binary and rooted; if it is not, it will be coerced into a rooted tree using \code{root} and/or binarized using \code{multi2di}.}
 }
 \value{
 A named vector containing the 16 basic summary statistics.
@@ -16,6 +16,9 @@ A named vector containing the 16 basic summary statistics.
 \code{computeBasicStats} computes basic summary statistics of a rooted binary phylo tree.
 }
 \seealso{
-Other drivers for computing summary statistics: \code{\link{computeNetworkStats}},
-  \code{\link{computeSpectralStats}}
+Other drivers for computing summary statistics: \code{\link{computeLMStats}},
+  \code{\link{computeNetworkStats}},
+  \code{\link{computeSpectralStats}},
+  \code{\link{rankDiscriminatoryStats}}
 }
+\concept{drivers for computing summary statistics}

@@ -16,3 +16,4 @@ computeMaxHeight(tree)
 Other tree shape statistics based on height and width: \code{\link{computeDelW}},
   \code{\link{computeMaxWidth}}
 }
+\concept{tree shape statistics based on height and width}

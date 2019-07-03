@@ -4,11 +4,12 @@
 \alias{computeSpectralStats}
 \title{Spectra of a rooted phylo tree.}
 \usage{
-computeSpectralStats(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TRUE),
-  norm = FALSE, dist = FALSE, full = FALSE, maxOnly = TRUE)
+computeSpectralStats(tree, weight = c(FALSE, TRUE), adj = c(FALSE,
+  TRUE), norm = FALSE, dist = FALSE, full = FALSE, maxOnly = TRUE,
+  unitMean = FALSE)
 }
 \arguments{
-\item{tree}{A phylo tree; needs to be binary and rooted.}
+\item{tree}{A tree of class \code{phylo}. The tree should be binary and rooted; if it is not, it will be coerced into a rooted tree using \code{root} and/or binarized using \code{multi2di}.}
 
 \item{weight}{A logical vector; a TRUE (FALSE) entry means the branch lengths are (not) taken into account.}
 
@@ -21,14 +22,19 @@ computeSpectralStats(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TRUE),
 \item{full}{A logical vector;  a TRUE (FALSE) entry means the full (leaf-leaf) distance matrix is used.}
 
 \item{maxOnly}{A logical scalar; if TRUE, only the maximum value of each vector is returned.}
+
+\item{unitMean}{A logical scalar; if TRUE, the tree's branch lengths are scaled to unit mean beforehand.}
 }
 \value{
-A named vector containing the specified spectra (or only their maximum values).
+A named list containing the specified spectra (or only their maximum values).
 }
 \description{
 \code{computeSpectralStats} computes various spectra of a rooted binary phylo tree.
 }
 \seealso{
 Other drivers for computing summary statistics: \code{\link{computeBasicStats}},
-  \code{\link{computeNetworkStats}}
+  \code{\link{computeLMStats}},
+  \code{\link{computeNetworkStats}},
+  \code{\link{rankDiscriminatoryStats}}
 }
+\concept{drivers for computing summary statistics}

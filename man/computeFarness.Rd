@@ -21,3 +21,4 @@ Other network science-based tree shape statistics: \code{\link{computeBetweennes
   \code{\link{computeEigenvector}},
   \code{\link{computeWienerIndex}}
 }
+\concept{network science-based tree shape statistics}

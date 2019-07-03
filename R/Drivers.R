@@ -126,7 +126,7 @@ computeLMStats = function(tree, norm = FALSE, unitMean = FALSE) {
   if (unitMean) {
     tree = scaleTreeBranches(tree)
   }
-  stats = spectR(tree, method = ifelse(norm, "normal", "standard"))
+  stats = RPANDA::spectR(tree, method = ifelse(norm, "normal", "standard"))
   output = c(stats$asymmetry, stats$peakedness1, stats$peakedness2, stats$principal_eigenvalue)
   names(output) = spectralLMNames
   output
@@ -135,11 +135,11 @@ computeLMStats = function(tree, norm = FALSE, unitMean = FALSE) {
 #' Summaries of the distance Lapalcian spectrum (normalized or unnormalized) of a rooted phylo tree.
 #'
 #' \code{rankDiscriminatoryStats} ranks different summary stats of rooted binary phylo trees by discriminatory power.
-#' @inheritParams computeNetworksStats
+#' @inheritParams computeNetworkStats
 #' @param tList1 A list of trees of class \code{phylo}. The trees should be binary and rooted; else they are coerced
 #' @param tList2 A list of trees of class \code{phylo}. The trees should be binary and rooted; else they are coerced
 #' @param basic A logical scalar; if TRUE, computes the basic tree statistics for the lists (lengths must be equal).
-#' @param basic A logical scalar; if TRUE, computes the network statistics for the lists (lengths must be equal).
+#' @param network A logical scalar; if TRUE, computes the network statistics for the lists (lengths must be equal).
 #' @param spectral A logical scalar; if TRUE, computes the spectral statistics for the lists (lengths must be equal).
 #' @return A named list containing the statistics for the first set of trees, the second set of trees, and p-values.
 #' @family drivers for computing summary statistics
@@ -149,8 +149,8 @@ rankDiscriminatoryStats = function(tList1, tList2, basic = TRUE, network = TRUE,
   if (Lens[1] != Lens[2]) {
     warning("Different numbers of trees are being compared")
   }
-  L1 = sapply(tList1, Ntip)
-  L2 = sapply(tList2, Ntip)
+  L1 = sapply(tList1, ape::Ntip)
+  L2 = sapply(tList2, ape::Ntip)
   if (mean(L1, na.rm = TRUE) != mean(L2, na.rm = TRUE)) {
     warning("The average numbers of tips are not equal")
   }
@@ -164,7 +164,7 @@ rankDiscriminatoryStats = function(tList1, tList2, basic = TRUE, network = TRUE,
       curTree = treeLists[[index]][[ind]]
       if (basic) {
         curRange = curCol + (1:length(basicStatNames))
-        Stats[startRow + ind, curRange] = computeBasicStats(curTree, unitMean = unitMean)
+        Stats[startRow + ind, curRange] = computeBasicStats(curTree)
         curCol = curCol + length(basicStatNames)
       }
       if (network) {
@@ -194,7 +194,7 @@ compareStats = function(Stats1, Stats2) {
     curName = colnames(Stats1)[ind]
     cur1 = Stats1[,curName]
     cur2 = Stats2[,curName]
-    curTest = t.test(unlist(cur1), unlist(cur2))
+    curTest = stats::t.test(unlist(cur1), unlist(cur2))
     curResult = c(curTest$estimate, curTest$p.value)
     names(curResult) = NULL
     Mat[ind,] = curResult

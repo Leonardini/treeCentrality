@@ -15,3 +15,4 @@ computeStairs2(tree)
 \seealso{
 Other tree shape statistics proposed by Norstrom et al.: \code{\link{computeStairs1}}
 }
+\concept{tree shape statistics proposed by Norstrom et al.}

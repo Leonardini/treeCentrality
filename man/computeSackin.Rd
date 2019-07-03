@@ -15,3 +15,4 @@ computeSackin(tree)
 \seealso{
 Other tree shape statistics based on imbalance: \code{\link{computeColless}}
 }
+\concept{tree shape statistics based on imbalance}

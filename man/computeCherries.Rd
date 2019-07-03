@@ -18,3 +18,4 @@ computeCherries(tree, DOUBLE = FALSE)
 Other tree shape statistics based on the number of small substructures: \code{\link{computeNum4to8}},
   \code{\link{computePitchforks}}
 }
+\concept{tree shape statistics based on the number of small substructures}
