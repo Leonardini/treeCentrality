@@ -4,7 +4,7 @@ library(igraph)
 context("Network statistics on a tree")
 
 myTree = createTestTree()
-myNetStats = computeNetworkStats(myTree, weight = TRUE, meanpath = TRUE, maxOnly = FALSE)
+myNetStats = computeNetworkStats(myTree, weight = TRUE, meanpath = TRUE, maxOnly = FALSE, unitMean = FALSE)
 myDF = as.data.frame(cbind(myTree$edge, weight = myTree$edge.length))
 myG = igraph::graph_from_data_frame(myDF, directed = FALSE)
 N = igraph::gorder(myG)

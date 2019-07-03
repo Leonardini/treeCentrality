@@ -2,6 +2,7 @@ basicStatNames    = c("cherries", "pitchforks", "doubcherries", "fourprong", "nu
                       "num5", "num6", "num7", "num8", "colless", "sackin", "maxwidth",
                       "maxheight", "delW", "stairs1", "stairs2")
 networkStatNames  = c("diameter", "WienerIndex", "betweenness", "closeness", "eigenvector")
+spectralLMNames = c("asymmetry", "kurtosis", "densityMax", "lambdaMax")
 
 #' Basic summary statistics of a rooted phylo tree.
 #'
@@ -41,7 +42,7 @@ computeBasicStats = function(tree) {
 #' @return A named vector containing the 5 network science-based statistics.
 #' @family drivers for computing summary statistics
 #' @export
-computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly = TRUE, unitMean = TRUE) {
+computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly = TRUE, unitMean = FALSE) {
   if (unitMean) {
     tree = scaleTreeBranches(tree)
   }
@@ -76,7 +77,7 @@ computeNetworkStats = function(tree, weight = FALSE, meanpath = FALSE, maxOnly =
 #' @family drivers for computing summary statistics
 #' @export
 computeSpectralStats = function(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TRUE),
-  norm = FALSE, dist = FALSE, full = FALSE, maxOnly = TRUE, unitMean = TRUE) {
+  norm = FALSE, dist = FALSE, full = FALSE, maxOnly = TRUE, unitMean = FALSE) {
   if (unitMean) {
     tree = scaleTreeBranches(tree)
   }
@@ -121,50 +122,66 @@ computeSpectralStats = function(tree, weight = c(FALSE, TRUE), adj = c(FALSE, TR
 #' @return A named list containing spectral summary statistics: asymmetry, kurtosis, densityMax and lambdaMax.
 #' @family drivers for computing summary statistics
 #' @export
-computeLMStats = function(tree, norm = FALSE, unitMean = TRUE) {
+computeLMStats = function(tree, norm = FALSE, unitMean = FALSE) {
   if (unitMean) {
     tree = scaleTreeBranches(tree)
   }
   stats = spectR(tree, method = ifelse(norm, "normal", "standard"))
   output = c(stats$asymmetry, stats$peakedness1, stats$peakedness2, stats$principal_eigenvalue)
-  names(output) = c("asymmetry", "kurtosis", "densityMax", "lambdaMax")
+  names(output) = spectralLMNames
   output
 }
 
-### TODO: ADD DESCRIPTION!
-rankDiscriminatoryStats = function(treeList1, treeList2, basic = TRUE, network = TRUE, spectral = TRUE) {
-  Lens = c(length(treeList1), length(treeList2))
+#' Summaries of the distance Lapalcian spectrum (normalized or unnormalized) of a rooted phylo tree.
+#'
+#' \code{rankDiscriminatoryStats} ranks different summary stats of rooted binary phylo trees by discriminatory power.
+#' @inheritParams computeNetworksStats
+#' @param tList1 A list of trees of class \code{phylo}. The trees should be binary and rooted; else they are coerced
+#' @param tList2 A list of trees of class \code{phylo}. The trees should be binary and rooted; else they are coerced
+#' @param basic A logical scalar; if TRUE, computes the basic tree statistics for the lists (lengths must be equal).
+#' @param basic A logical scalar; if TRUE, computes the network statistics for the lists (lengths must be equal).
+#' @param spectral A logical scalar; if TRUE, computes the spectral statistics for the lists (lengths must be equal).
+#' @return A named list containing the statistics for the first set of trees, the second set of trees, and p-values.
+#' @family drivers for computing summary statistics
+#' @export
+rankDiscriminatoryStats = function(tList1, tList2, basic = TRUE, network = TRUE, spectral = TRUE, unitMean = TRUE) {
+  Lens = c(length(tList1), length(tList2))
   if (Lens[1] != Lens[2]) {
     warning("Different numbers of trees are being compared")
   }
-  L1 = sapply(treeList1, Ntip)
-  L2 = sapply(treeList2, Ntip)
+  L1 = sapply(tList1, Ntip)
+  L2 = sapply(tList2, Ntip)
   if (mean(L1, na.rm = TRUE) != mean(L2, na.rm = TRUE)) {
     warning("The average numbers of tips are not equal")
   }
-  numStats = length(basicStatNames) * basic + length(networkStatNames) * network + 4 * spectral
-  Stats = matrix(NA, Lens[1] + Lens[2], numStats)
+  nStats = length(basicStatNames) * basic + length(networkStatNames) * network + length(spectralLMNames) * spectral
+  Stats = matrix(NA, Lens[1] + Lens[2], nStats)
+  treeLists = c(tList1, tList2)
   for (index in 1:2) {
     startRow = ifelse(index == 1, 0, Lens[1])
     for (ind in 1:Lens[index]) {
       curCol = 0
       curTree = treeLists[[index]][[ind]]
       if (basic) {
-        Stats[startRow + ind, curCol + (1:length(basicStatNames))] = computeBasicStats(curTree)
+        curRange = curCol + (1:length(basicStatNames))
+        Stats[startRow + ind, curRange] = computeBasicStats(curTree, unitMean = unitMean)
         curCol = curCol + length(basicStatNames)
       }
       if (network) {
-        Stats[startRow + ind, curCol + (1:length(networkStatNames))] = computeNetworkStats(curTree)
+        curRange = curCol + (1:length(networkStatNames))
+        Stats[startRow + ind, curRange] = computeNetworkStats(curTree, unitMean = unitMean)
         curCol = curCol + length(networkStatNames)
       }
       if (spectral) {
-        
+        curRange = curCol + (1:length(spectralLMNames))
+        Stats[startRow + ind, curRange] = computeLMStats(curTree, unitMean = unitMean)
       }
     }
   }
   Stats1 = Stats[1:Lens[1], , drop = FALSE]
   Stats2 = Stats[-(1:Lens[1]), , drop = FALSE]
-  output = compareStats(Stats1, Stats2)
+  comparison = compareStats(Stats1, Stats2)
+  output = list(Stats1 = Stats1, Stats2 = Stats2, comparison = comparison)
   output
 }
 
