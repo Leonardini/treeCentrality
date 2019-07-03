@@ -2,7 +2,7 @@
 % Please edit documentation in R/Drivers.R
 \name{rankDiscriminatoryStats}
 \alias{rankDiscriminatoryStats}
-\title{Summaries of the distance Lapalcian spectrum (normalized or unnormalized) of a rooted phylo tree.}
+\title{Ranking of the summary statistics of two lists of trees according to how different the means they produce are.}
 \usage{
 rankDiscriminatoryStats(tList1, tList2, basic = TRUE, network = TRUE,
   spectral = TRUE, unitMean = TRUE)

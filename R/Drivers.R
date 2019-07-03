@@ -132,7 +132,7 @@ computeLMStats = function(tree, norm = FALSE, unitMean = FALSE) {
   output
 }
 
-#' Summaries of the distance Lapalcian spectrum (normalized or unnormalized) of a rooted phylo tree.
+#' Ranking of the summary statistics of two lists of trees according to how different the means they produce are.
 #'
 #' \code{rankDiscriminatoryStats} ranks different summary stats of rooted binary phylo trees by discriminatory power.
 #' @inheritParams computeNetworkStats
@@ -185,7 +185,7 @@ rankDiscriminatoryStats = function(tList1, tList2, basic = TRUE, network = TRUE,
   output
 }
 
-### TODO: ADD DESCRIPTION!
+### This function computes t-test p-values for the null hypothesis that the means of two sets of trees are the same
 compareStats = function(Stats1, Stats2) {
   stopifnot(ncol(Stats1) == ncol(Stats2))
   stopifnot(all(sort(colnames(Stats1)) == sort(colnames(Stats2))))
