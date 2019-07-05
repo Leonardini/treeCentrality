@@ -5,8 +5,9 @@ Version: 0.1.0
 Authors@R: c(
     person("Leonid", "Chindelevitch", email = "leonid@sfu.ca", role = c("aut", "cre")),
     person("Caroline", "Colijn", email = "c.colijn@imperial.ac.uk", role = "aut"),
-    person("Art", "Poon", email = "apoon42@uwo.ca", role = "aut"))
-Description: treeCentrality is a package for computing network science statistics on 
+    person("Art", "Poon", email = "apoon42@uwo.ca", role = "aut"),
+    person("Maryam", "Hayati", email = "mhayati@sfu.ca", role = "aut"))
+Description: The treeCentrality package is used for computing network science statistics on 
   (rooted or unrooted) phylogenetic trees in linear time and space. The statistics include 
   diameter, mean path length, degree assortativity and three node-based centrality values: 
   betweenness centrality, closeness centrality, and eigenvector centrality. These 
