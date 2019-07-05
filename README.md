@@ -9,6 +9,7 @@ In addition, this package can compute the spectra of the adjacency, Laplacian, a
 may be cubic in the tree size. The package can also compute a number of classical topology statistics, such as the Colless and 
 Sackin indices, numbers of small configurations such as cherries, the heights of tree nodes, and “staircaseness” statistics. 
 The methods are described in “Network science inspires novel tree shape statistics”.
+The paper is currently available at https://www.biorxiv.org/content/10.1101/608646v1.
 
 You can install the package from github via:
 
