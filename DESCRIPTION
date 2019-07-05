@@ -1,6 +1,6 @@
 Package: treeCentrality
 Type: Package
-Title: Computation of network science statistics on trees in linear time
+Title: Computation of Network Science Statistics on Trees in Linear Time
 Version: 0.1.0
 Authors@R: c(
     person("Leonid", "Chindelevitch", email = "leonid@sfu.ca", role = c("aut", "cre")),
