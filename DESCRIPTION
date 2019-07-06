@@ -27,11 +27,11 @@ Depends:
 Imports:
     ape (>= 4.1),
     igraph (>= 1.0.1),
-    phytools (>= 0.6.0),
     rARPACK (>= 0.11.0)
 Suggests:
     apTreeshape (>= 1.4.5),
     phyloTop (>= 2.0.1),
+    phytools (>= 0.6.0),
     RPANDA (>= 1.3),
     testthat (>= 1.0.2)
 RoxygenNote: 6.1.1
