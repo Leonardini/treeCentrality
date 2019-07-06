@@ -1,5 +1,5 @@
 I have read and agree to the the CRAN policies at http://cran.r-project.org/web/packages/policies.html
-
+There were no ERRORs or WARNINGs.
 Both check_rhub and check_win_devel throw the following NOTE:
   Maintainer: 'Leonid Chindelevitch <leonid@sfu.ca>'
   
@@ -14,3 +14,4 @@ Both check_rhub and check_win_devel throw the following NOTE:
     staircaseness (20:77)
     treeCentrality (11:18)
     unrooted (12:14)
+All the suspected spelling mistakes are false positives.
